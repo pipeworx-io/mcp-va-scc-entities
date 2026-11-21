@@ -1,0 +1,33 @@
+{
+  "name": "@pipeworx/mcp-va-scc-entities",
+  "version": "0.1.0",
+  "description": "va-scc-entities: Virginia State Corporation Commission corporations and LLCs (fleet #4424).",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./tools.json": "./tools.json",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "mcp-va-scc-entities": "bin/cli.js"
+  },
+  "files": ["bin/", "lib/", "tools.json", "server.json"],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["mcp", "mcp-server", "model-context-protocol", "pipeworx", "va-scc-entities"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pipeworx-io/mcp-va-scc-entities.git"
+  },
+  "mcpName": "io.github.pipeworx-io/va-scc-entities",
+  "pipeworx": {
+    "mode": "gateway",
+    "slug": "va-scc-entities",
+    "gatewaySlug": "va-scc-entities",
+    "sourceHash": "v1-bef7100f880059a5c2ae066e5a2bf536215591d25dc3ab95276ea869f702f8d9",
+    "sourceCommit": "f1245c167982595b94e1ae8632fffa8c82378575"
+  }
+}

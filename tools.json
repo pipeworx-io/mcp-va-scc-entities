@@ -1,0 +1,98 @@
+[
+  {
+    "name": "va_scc_search_entities",
+    "description": "Find a Virginia corporation or LLC by name in the Virginia State Corporation Commission, Clerk's Information System tables. A row is returned as a hit only when its normalised name equals the name asked for: Inc / Incorporated, LLC / L.L.C. / Limited Liability Company, a trailing full stop and & vs and all match; names that merely start with it come back separately as also_starting_with. Each hit has entity_id, name, kind (corporation or llc), status, status reason and date, formation date, state of formation and principal office. THE DATA IS STALE AND CUT SHORT: the newest LLC formation in the published table is 2022-06-16 (the LLC table stops at exactly 1,048,575 rows) and the newest corporation is 2024-11-09. Every response states the measured newest formation date per table in data_as_of, so found:false never means \"no such Virginia company\": an entity formed after those dates is absent. No individuals are served (no officers, no registered agent names).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Company name, e.g. \"Acme Motor Company, Inc.\" or \"Furious Sauces LLC\"."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "any",
+            "corporation",
+            "llc"
+          ],
+          "description": "Which table to search (default any)."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "any",
+            "active",
+            "inactive"
+          ],
+          "description": "Filter by status (default any; pending-inactive counts as inactive)."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max hits (default 10, max 50)."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  {
+    "name": "va_scc_entity",
+    "description": "The Virginia State Corporation Commission record for one corporation or LLC by its entity id (SCC id, e.g. \"S5515129\" or \"11376405\" for an LLC, \"00241224\" for a corporation): name, status and reason, status date, formation date, state of formation, principal office, and the type-specific flags (LLC industry code and series flags; corporation stock indicator and total shares). THE DATA IS STALE AND CUT SHORT: newest LLC formation 2022-06-16, newest corporation 2024-11-09, stated measured in data_as_of on every response; an id not found is not proof the entity does not exist. No individuals are served (no officers, no registered agent). Get the id from va_scc_search_entities.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "entity_id": {
+          "type": "string",
+          "description": "SCC entity id: as the SCC prints it, e.g. \"S5515129\", \"11376405\" or \"00241224\" (leading zeros may be left off a numeric id)."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "any",
+            "corporation",
+            "llc"
+          ],
+          "description": "Which table (default any)."
+        }
+      },
+      "required": [
+        "entity_id"
+      ]
+    }
+  },
+  {
+    "name": "va_scc_new_entities",
+    "description": "Virginia corporations and LLCs formed on or after a date in the State Corporation Commission, Clerk's Information System tables, newest first, with entity id, name, kind, status, formation date and principal office. THE DATA STOPS EARLY: the newest LLC formation in the table is 2022-06-16 and the newest corporation 2024-11-09, so a since date after those returns nothing and says why per table. It is a history feed to those dates, not a live feed of new Virginia businesses. data_as_of states the measured newest formation per table. No individuals are served.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "since": {
+          "type": "string",
+          "description": "Formation date on or after, YYYY-MM-DD, e.g. \"2024-10-01\"."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "any",
+            "corporation",
+            "llc"
+          ],
+          "description": "Which table (default any)."
+        },
+        "name_query": {
+          "type": "string",
+          "description": "Only names containing this text, e.g. \"dental\"."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max results (default 100, max 500)."
+        }
+      },
+      "required": [
+        "since"
+      ]
+    }
+  }
+]

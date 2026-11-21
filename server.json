@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.pipeworx-io/va-scc-entities",
+  "title": "Va Scc Entities",
+  "description": "va-scc-entities: Virginia State Corporation Commission corporations and LLCs (fleet #4424).",
+  "version": "0.1.0",
+  "websiteUrl": "https://pipeworx.io/packs/va-scc-entities",
+  "repository": {
+    "url": "https://github.com/pipeworx-io/mcp-va-scc-entities",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://gateway.pipeworx.io/va-scc-entities/mcp"
+    }
+  ]
+}
